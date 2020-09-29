@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:meals_app/screens/categories.dart';
+import 'package:meals_app/screens/meal_details.dart';
 import 'package:meals_app/screens/meals_list.dart';
 
 void main() {
@@ -35,7 +36,10 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Categories(),
-      routes: {MealsList.ROUTE: (_) => MealsList()},
+      routes: {
+        MealsList.ROUTE: (_) => MealsList(),
+        MealDetails.ROUTE: (_) => MealDetails(),
+      },
     );
   }
 }
