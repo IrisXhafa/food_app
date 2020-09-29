@@ -5,7 +5,6 @@ class CategoryItem extends StatelessWidget {
   final Category category;
 
   CategoryItem(this.category);
-
   @override
   Widget build(BuildContext context) {
     return GridTile(

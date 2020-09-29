@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meals_app/dummy_data.dart';
 import 'package:meals_app/widgets/category_item.dart';
+import 'package:meals_app/widgets/meals_list.dart';
 
 class Categories extends StatelessWidget {
   @override
@@ -20,7 +21,19 @@ class Categories extends StatelessWidget {
               mainAxisSpacing: 10),
           children: [
             ...DUMMY_CATEGORIES.map((category) {
-              return CategoryItem(category);
+              return InkWell(
+                splashColor: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(20),
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    MealsList.ROUTE,
+                    arguments: {
+                      'category': category,
+                    },
+                  );
+                },
+                child: CategoryItem(category),
+              );
             })
           ],
         ),
