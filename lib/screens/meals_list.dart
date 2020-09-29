@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meals_app/dummy_data.dart';
 import 'package:meals_app/models/category.dart';
 
-import 'meal_item.dart';
+import '../widgets/meal_item.dart';
 
 class MealsList extends StatelessWidget {
   static const String ROUTE = '/category-items';
