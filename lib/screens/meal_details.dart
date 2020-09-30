@@ -3,6 +3,10 @@ import 'package:meals_app/models/meal.dart';
 
 class MealDetails extends StatelessWidget {
   static const String ROUTE = '/meal-details';
+  final List<Meal> _favorites;
+  final Function _toggleFavorite;
+
+  MealDetails(this._favorites, this._toggleFavorite);
 
   _titleContainerBuilder(BuildContext context, String text) {
     return Container(
@@ -25,69 +29,77 @@ class MealDetails extends StatelessWidget {
     final appBar = AppBar(
       title: Text(meal.title),
     );
+    final bool _isFavorite = _favorites.any((element) => element.id == meal.id);
 
     return Scaffold(
-        appBar: appBar,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 200,
-                width: double.infinity,
-                child: Image(
-                  image: NetworkImage(meal.imageUrl),
-                  fit: BoxFit.cover,
-                ),
+      appBar: appBar,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 200,
+              width: double.infinity,
+              child: Image(
+                image: NetworkImage(meal.imageUrl),
+                fit: BoxFit.cover,
               ),
-              _titleContainerBuilder(context, 'Ingredients'),
-              Container(
-                height: ((MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height) *
-                    0.3),
-                margin: EdgeInsets.all(10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
+            ),
+            _titleContainerBuilder(context, 'Ingredients'),
+            Container(
+              height: ((MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height) *
+                  0.3),
+              margin: EdgeInsets.all(10),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).primaryColor,
                   ),
-                  padding: EdgeInsets.all(10),
-                  child: ListView.builder(
-                    itemBuilder: (ctx, index) {
-                      return Card(
-                        color: Theme.of(context).primaryColor,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 10,
-                          ),
-                          child: Text(meal.ingredients[index]),
-                        ),
-                        elevation: 6,
-                      );
-                    },
-                    itemCount: meal.ingredients.length,
-                  ),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ),
-              _titleContainerBuilder(context, 'Steps'),
-              Container(
-                height: 200,
+                padding: EdgeInsets.all(10),
                 child: ListView.builder(
                   itemBuilder: (ctx, index) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Text('${index + 1}'),
+                    return Card(
+                      color: Theme.of(context).primaryColor,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 10,
+                        ),
+                        child: Text(meal.ingredients[index]),
                       ),
-                      title: Text(meal.steps[index]),
+                      elevation: 6,
                     );
                   },
-                  itemCount: meal.steps.length,
+                  itemCount: meal.ingredients.length,
                 ),
-              )
-            ],
-          ),
-        ));
+              ),
+            ),
+            _titleContainerBuilder(context, 'Steps'),
+            Container(
+              height: 200,
+              child: ListView.builder(
+                itemBuilder: (ctx, index) {
+                  return ListTile(
+                    leading: CircleAvatar(
+                      child: Text('${index + 1}'),
+                    ),
+                    title: Text(meal.steps[index]),
+                  );
+                },
+                itemCount: meal.steps.length,
+              ),
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: IconButton(
+        icon: Icon(
+          _isFavorite ? Icons.star : Icons.star_border,
+        ),
+        onPressed: () => this._toggleFavorite(meal),
+      ),
+    );
   }
 }
